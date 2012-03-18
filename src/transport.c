@@ -37,6 +37,15 @@ static void base_post_data(ckl_transport_t *t,
                  CURLFORM_COPYCONTENTS, conf->secret,
                  CURLFORM_END);
   }
+
+  if (conf->name) {
+    curl_formadd(&t->formpost,
+                 &t->lastptr,
+                 CURLFORM_COPYNAME, "name",
+                 CURLFORM_COPYCONTENTS, conf->name,
+                 CURLFORM_END);
+  }
+
 }
 
 static int msg_to_post_data(ckl_transport_t *t,
@@ -60,7 +69,7 @@ static int msg_to_post_data(ckl_transport_t *t,
                CURLFORM_COPYNAME, "msg",
                CURLFORM_COPYCONTENTS, m->msg,
                CURLFORM_END);
-  
+
   curl_formadd(&t->formpost,
                &t->lastptr,
                CURLFORM_COPYNAME, "ts",
