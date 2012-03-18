@@ -11,7 +11,7 @@ supported, althgouh the SSL certificate is not yet validated.
 
 == Example Config Flie ==
 Put the following in /etc/ckl.conf:
-  endpoint http://ckl.example.com/
+  ckl_endpoint http://ckl.example.com/
   secret mySuperSecret
 
 == Example Usage ==
