@@ -33,6 +33,7 @@ static int conf_parse(ckl_conf_t *conf, FILE *fp)
 {
   char buf[8096];
   char *p = NULL;
+  // what if a config directive spans a buffer?
   while ((p = fgets(buf, sizeof(buf), fp)) != NULL) {
     /* comment lines */
     if (p[0] == '#') {
@@ -77,8 +78,17 @@ static int conf_parse(ckl_conf_t *conf, FILE *fp)
       conf->oauth_key = next_chunk(&p);
       continue;
     }
+
+    if (strncmp("name", p, 4) == 0) {
+      p += 4;
+      if (conf->name) {
+        free((char*)conf->name);
+      }
+      conf->name = next_chunk(&p);
+      continue;
+    }
   }
-  
+
   return 0;
 }
 
@@ -141,6 +151,9 @@ void ckl_conf_free(ckl_conf_t *conf)
 {
   free((char*)conf->endpoint);
   free((char*)conf->secret);
+  free((char*)conf->oauth_key);
+  free((char*)conf->oauth_secret);
+  free((char*)conf->name);
   free(conf);
 }
 
