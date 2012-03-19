@@ -64,6 +64,10 @@ if os.environ.has_key('CC'):
 if cc:
   conf.env['CC'] = cc
 
+# Include libssl and libcrypto on Mac OS X.
+# See https://github.com/pquerna/ckl/issues/3
+if os.uname()[0]:
+  conf.env.AppendUnique(LIBS=['ssl', 'crypto'])
 
 if not conf.CheckFunc('floor'):
   conf.env.AppendUnique(LIBS=['m'])
